@@ -1,3 +1,4 @@
 deps/build.log
 deps/flavioso/Cargo.lock
 deps/flavioso/target/
+.vscode

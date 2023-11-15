@@ -20,4 +20,4 @@ jobs:
         with:
           version: ${{ matrix.julia-version }}
       - name: test
-        run: julia --color=yes -e 'using Pkg; Pkg.add(path=\".\"); Pkg.test(\"Polymers\")'
+        run: julia --color=yes -e 'using Pkg; Pkg.add(path="."); Pkg.test("Flavio")'

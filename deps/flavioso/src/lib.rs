@@ -19,7 +19,6 @@ use flavio::
     },
     mechanics::
     {
-        CauchyStress,
         DeformationGradient,
         Scalar
     }
@@ -38,25 +37,21 @@ pub extern fn langevin(x: Scalar) -> Scalar
 }
 
 #[no_mangle]
-pub extern fn neo_hookean(
-    bulk_modulus: Scalar, shear_modulus: Scalar,
-    f_11: Scalar, f_12: Scalar, f_13: Scalar,
-    f_21: Scalar, f_22: Scalar, f_23: Scalar,
-    f_31: Scalar, f_32: Scalar, f_33: Scalar
-) -> (Scalar, Scalar, Scalar,
-      Scalar, Scalar, Scalar,
-      Scalar, Scalar, Scalar)
+unsafe extern fn neo_hookean_cauchy_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3]
 {
-    let cauchy_stress = NeoHookeanModel::new(
-        &[bulk_modulus, shear_modulus]
-    ).calculate_cauchy_stress(
-        &DeformationGradient::new([
-            [f_11, f_12, f_13],
-            [f_21, f_22, f_23],
-            [f_31, f_32, f_33]
-        ])
-    );
-    (cauchy_stress[0][0], cauchy_stress[0][1], cauchy_stress[0][2],
-     cauchy_stress[1][0], cauchy_stress[1][1], cauchy_stress[1][2],
-     cauchy_stress[2][0], cauchy_stress[2][1], cauchy_stress[2][2])
+    Box::into_raw(Box::new(
+        NeoHookeanModel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_cauchy_stress(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
 }

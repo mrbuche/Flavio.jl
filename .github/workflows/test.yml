@@ -2,8 +2,8 @@ name: test
 on:
   pull_request:
     branches: [ main ]
-env:
-  CARGO_TERM_COLOR: always
+  push:
+    branches: [ main ]
 jobs:
   julia:
     strategy:
@@ -20,4 +20,4 @@ jobs:
         with:
           version: ${{ matrix.julia-version }}
       - name: test
-        run: julia --color=yes -e 'using Pkg; Pkg.add(path=\".\"); Pkg.test(\"Polymers\")'
+        run: julia --color=yes -e 'using Pkg; Pkg.add(path="."); Pkg.test("Flavio")'

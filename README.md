@@ -7,7 +7,7 @@
 
 ## Installation
 
-Flavio.jl is a Julia wrapper of [flavio](https://github.com/mrbuche/flavio).
+Flavio.jl is a Julia wrapper of [flavio](https://github.com/mrbuche/flavio) and currently offers constitutive modeling features.
 
 ```julia
 pkg> add Flavio

@@ -6,6 +6,7 @@ use flavio::
         hyperelastic::
         {
             HyperelasticConstitutiveModel,
+            ArrudaBoyceModel,
             NeoHookeanModel
         }
     },
@@ -36,6 +37,64 @@ pub extern fn inverse_langevin(y: Scalar) -> Scalar
 pub extern fn langevin(x: Scalar) -> Scalar
 {
     flavio_langevin(x)
+}
+
+#[no_mangle]
+unsafe extern fn arruda_boyce_cauchy_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    number_of_links: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        ArrudaBoyceModel::new(
+            &[bulk_modulus, shear_modulus, number_of_links]
+        ).calculate_cauchy_stress(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn arruda_boyce_cauchy_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    number_of_links: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        ArrudaBoyceModel::new(
+            &[bulk_modulus, shear_modulus, number_of_links]
+        ).calculate_cauchy_tangent_stiffness(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn arruda_boyce_helmholtz_free_energy_density(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    number_of_links: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> Scalar {
+    ArrudaBoyceModel::new(
+        &[bulk_modulus, shear_modulus, number_of_links]
+    ).calculate_helmholtz_free_energy_density(
+        &DeformationGradient::new(
+            std::slice::from_raw_parts(
+                deformation_gradient, 9
+            )[0]
+        )
+    )
 }
 
 #[no_mangle]

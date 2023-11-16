@@ -12,6 +12,7 @@ use flavio::
     math::
     {
         TensorRank2Trait,
+        TensorRank4Trait,
         special::
         {
             inverse_langevin as flavio_inverse_langevin,
@@ -47,6 +48,25 @@ unsafe extern fn neo_hookean_cauchy_stress(
         NeoHookeanModel::new(
             &[bulk_modulus, shear_modulus]
         ).calculate_cauchy_stress(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn neo_hookean_cauchy_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        NeoHookeanModel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_cauchy_tangent_stiffness(
             &DeformationGradient::new(
                 std::slice::from_raw_parts(
                     deformation_gradient, 9

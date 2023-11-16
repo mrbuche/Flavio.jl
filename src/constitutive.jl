@@ -21,6 +21,18 @@ function cauchy_stress(model::NeoHookean, F)
     )
 end
 
+function cauchy_tangent_stiffness(model::NeoHookean, F)
+    raw = ccall(
+        (:neo_hookean_cauchy_tangent_stiffness, FLAVIOSO_LIB),
+        Ptr{Float64},
+        (Float64, Float64, Ptr{Float64}),
+        model.κ, model.μ, F
+    )
+    return SArray{Tuple{3,3,3,3},Float64}(
+        unsafe_wrap(Array{Float64}, raw, 81, own=false)
+    )
+end
+
 function helmholtz_free_energy_density(model::NeoHookean, F)
     return ccall(
         (:neo_hookean_helmholtz_free_energy_density, FLAVIOSO_LIB),

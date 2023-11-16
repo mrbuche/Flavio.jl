@@ -8,7 +8,8 @@ include("constitutive.jl")
 # (hyperelastic, thermoelastic variants)
 # since input arguments will change and take care of everything
 
-export cauchy_stress, helmholtz_free_energy_density
+export cauchy_stress, cauchy_tangent_stiffness
+export helmholtz_free_energy_density
 export NeoHookean
 
 end

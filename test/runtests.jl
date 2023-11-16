@@ -16,7 +16,7 @@ Deformation = SMatrix{3, 3, Float64}(
 )
 
 @testset "Neo-Hookean model" begin
-    model = NeoHookeanModel(κ, μ)
+    model = NeoHookean(κ, μ)
 
     @test cauchy_stress(model, Identity) == Zero
     @test abs(cauchy_stress(model, SimpleShearSmall)[4]/ϵ/μ - 1) < ϵ

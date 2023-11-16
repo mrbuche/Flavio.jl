@@ -4,12 +4,12 @@ macro cauchy_stress
 
 end
 
-struct NeoHookeanModel
+struct NeoHookean
     κ
     μ
 end
 
-function cauchy_stress(model::NeoHookeanModel, F)
+function cauchy_stress(model::NeoHookean, F)
     raw = ccall(
         (:neo_hookean_cauchy_stress, FLAVIOSO_LIB),
         Ptr{Float64},
@@ -21,7 +21,7 @@ function cauchy_stress(model::NeoHookeanModel, F)
     )
 end
 
-function helmholtz_free_energy_density(model::NeoHookeanModel, F)
+function helmholtz_free_energy_density(model::NeoHookean, F)
     return ccall(
         (:neo_hookean_helmholtz_free_energy_density, FLAVIOSO_LIB),
         Float64,

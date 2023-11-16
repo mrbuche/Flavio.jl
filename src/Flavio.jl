@@ -6,6 +6,8 @@ const FLAVIOSO_LIB = string(FLAVIOSO, "target/release/libflavioso")
 include("constitutive.jl")
 include("math.jl")
 
-export inverse_langevin, langevin, cauchy_stress, NeoHookeanModel
+export inverse_langevin, langevin
+export cauchy_stress, helmholtz_free_energy_density
+export NeoHookeanModel
 
 end

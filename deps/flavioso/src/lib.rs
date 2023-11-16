@@ -5,6 +5,7 @@ use flavio::
         ConstitutiveModel,
         hyperelastic::
         {
+            HyperelasticConstitutiveModel,
             NeoHookeanModel
         }
     },
@@ -41,8 +42,7 @@ unsafe extern fn neo_hookean_cauchy_stress(
     bulk_modulus: Scalar,
     shear_modulus: Scalar,
     deformation_gradient: *const [[Scalar; 3]; 3]
-) -> *const [[Scalar; 3]; 3]
-{
+) -> *const [[Scalar; 3]; 3] {
     Box::into_raw(Box::new(
         NeoHookeanModel::new(
             &[bulk_modulus, shear_modulus]
@@ -54,4 +54,21 @@ unsafe extern fn neo_hookean_cauchy_stress(
             )
         ).as_array()
     ))
+}
+
+#[no_mangle]
+unsafe extern fn neo_hookean_helmholtz_free_energy_density(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> Scalar {
+    NeoHookeanModel::new(
+        &[bulk_modulus, shear_modulus]
+    ).calculate_helmholtz_free_energy_density(
+        &DeformationGradient::new(
+            std::slice::from_raw_parts(
+                deformation_gradient, 9
+            )[0]
+        )
+    )
 }

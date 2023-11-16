@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-flavio = { version = "0.3.3", features = ["constitutive"] }
+flavio = { version = "0.3.4", features = ["constitutive"] }
 
 [lib]
 crate-type = ["cdylib"]

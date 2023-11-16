@@ -15,6 +15,8 @@ pkg> add Flavio
 
 ## Example
 
+Calculate the Cauchy stress for a Neo-Hookean model under an applied deformation gradient:
+
 ```julia
 julia> using Flavio, StaticArrays
 julia> model = NeoHookean(13.0, 3.0);

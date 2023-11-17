@@ -3,6 +3,7 @@ using LinearAlgebra, Flavio, StaticArrays, Test
 κ = 13.0
 μ = 3.0
 μₘ = 1.0
+μₑ = [-1.0, 3e-1, -1e-3, 1e-5]
 Jₘ = 23.0
 N = 8.0
 

@@ -183,3 +183,9 @@ function helmholtz_free_energy_density(model::NeoHookean, F)
         model.κ, model.μ, F
     )
 end
+
+struct Yeoh
+    κ
+    μ
+    μₑ
+end

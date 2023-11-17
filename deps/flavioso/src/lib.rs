@@ -312,3 +312,30 @@ unsafe extern fn neo_hookean_helmholtz_free_energy_density(
         )
     )
 }
+
+// #[no_mangle]
+// unsafe extern fn yeoh_cauchy_stress(
+//     bulk_modulus: Scalar,
+//     shear_modulus: Scalar,
+//     deformation_gradient: *const [[Scalar; 3]; 3]
+// ) -> *const [[Scalar; 3]; 3] {
+//     todo!()
+// }
+
+// #[no_mangle]
+// unsafe extern fn yeoh_cauchy_tangent_stiffness(
+//     bulk_modulus: Scalar,
+//     shear_modulus: Scalar,
+//     deformation_gradient: *const [[Scalar; 3]; 3]
+// ) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+//     todo!()
+// }
+
+// #[no_mangle]
+// unsafe extern fn yeoh_helmholtz_free_energy_density(
+//     bulk_modulus: Scalar,
+//     shear_modulus: Scalar,
+//     deformation_gradient: *const [[Scalar; 3]; 3]
+// ) -> Scalar {
+//     todo!()
+// }

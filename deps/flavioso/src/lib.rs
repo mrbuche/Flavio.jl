@@ -13,8 +13,7 @@ use flavio::
             ArrudaBoyceModel,
             GentModel,
             MooneyRivlinModel,
-            NeoHookeanModel,
-            // YeohModel
+            NeoHookeanModel
         }
     },
     math::
@@ -85,6 +84,44 @@ unsafe extern fn almansi_hamel_cauchy_tangent_stiffness(
 }
 
 #[no_mangle]
+unsafe extern fn almansi_hamel_first_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        AlmansiHamelModel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_first_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn almansi_hamel_first_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        AlmansiHamelModel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_first_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
 unsafe extern fn arruda_boyce_cauchy_stress(
     bulk_modulus: Scalar,
     shear_modulus: Scalar,
@@ -115,6 +152,46 @@ unsafe extern fn arruda_boyce_cauchy_tangent_stiffness(
         ArrudaBoyceModel::new(
             &[bulk_modulus, shear_modulus, number_of_links]
         ).calculate_cauchy_tangent_stiffness(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn arruda_boyce_first_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    number_of_links: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        ArrudaBoyceModel::new(
+            &[bulk_modulus, shear_modulus, number_of_links]
+        ).calculate_first_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn arruda_boyce_first_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    number_of_links: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        ArrudaBoyceModel::new(
+            &[bulk_modulus, shear_modulus, number_of_links]
+        ).calculate_first_piola_kirchoff_tangent_stiffness(
             &DeformationGradient::new(
                 std::slice::from_raw_parts(
                     deformation_gradient, 9
@@ -183,6 +260,46 @@ unsafe extern fn gent_cauchy_tangent_stiffness(
 }
 
 #[no_mangle]
+unsafe extern fn gent_first_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extensibility: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        GentModel::new(
+            &[bulk_modulus, shear_modulus, extensibility]
+        ).calculate_first_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn gent_first_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extensibility: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        GentModel::new(
+            &[bulk_modulus, shear_modulus, extensibility]
+        ).calculate_first_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
 unsafe extern fn gent_helmholtz_free_energy_density(
     bulk_modulus: Scalar,
     shear_modulus: Scalar,
@@ -231,6 +348,46 @@ unsafe extern fn mooney_rivlin_cauchy_tangent_stiffness(
         MooneyRivlinModel::new(
             &[bulk_modulus, shear_modulus, extra_modulus]
         ).calculate_cauchy_tangent_stiffness(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn mooney_rivlin_first_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extra_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        MooneyRivlinModel::new(
+            &[bulk_modulus, shear_modulus, extra_modulus]
+        ).calculate_first_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn mooney_rivlin_first_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extra_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        MooneyRivlinModel::new(
+            &[bulk_modulus, shear_modulus, extra_modulus]
+        ).calculate_first_piola_kirchoff_tangent_stiffness(
             &DeformationGradient::new(
                 std::slice::from_raw_parts(
                     deformation_gradient, 9
@@ -297,6 +454,44 @@ unsafe extern fn neo_hookean_cauchy_tangent_stiffness(
 }
 
 #[no_mangle]
+unsafe extern fn neo_hookean_first_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        NeoHookeanModel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_first_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn neo_hookean_first_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        NeoHookeanModel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_first_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
 unsafe extern fn neo_hookean_helmholtz_free_energy_density(
     bulk_modulus: Scalar,
     shear_modulus: Scalar,
@@ -312,30 +507,3 @@ unsafe extern fn neo_hookean_helmholtz_free_energy_density(
         )
     )
 }
-
-// #[no_mangle]
-// unsafe extern fn yeoh_cauchy_stress(
-//     bulk_modulus: Scalar,
-//     shear_modulus: Scalar,
-//     deformation_gradient: *const [[Scalar; 3]; 3]
-// ) -> *const [[Scalar; 3]; 3] {
-//     todo!()
-// }
-
-// #[no_mangle]
-// unsafe extern fn yeoh_cauchy_tangent_stiffness(
-//     bulk_modulus: Scalar,
-//     shear_modulus: Scalar,
-//     deformation_gradient: *const [[Scalar; 3]; 3]
-// ) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
-//     todo!()
-// }
-
-// #[no_mangle]
-// unsafe extern fn yeoh_helmholtz_free_energy_density(
-//     bulk_modulus: Scalar,
-//     shear_modulus: Scalar,
-//     deformation_gradient: *const [[Scalar; 3]; 3]
-// ) -> Scalar {
-//     todo!()
-// }

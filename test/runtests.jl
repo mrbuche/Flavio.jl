@@ -2,8 +2,8 @@ using LinearAlgebra, Flavio, StaticArrays, Test
 
 κ = 13.0
 μ = 3.0
+μₑ = SVector(-1.0, 3e-1, -1e-3, 1e-5)
 μₘ = 1.0
-μₑ = [-1.0, 3e-1, -1e-3, 1e-5]
 Jₘ = 23.0
 N = 8.0
 
@@ -28,21 +28,41 @@ F = SMatrix{3, 3, Float64}(
 )
 
 function test_elastic(model)
-    @test cauchy_stress(model, I) == Zero
-    @test abs(cauchy_stress(model, SimpleShearSmall)[4]/ϵ/μ - 1) < ϵ
-    @test abs(tr(cauchy_stress(model, VolumetricSmall))/3/ϵ/κ - 1) < 3*ϵ
-    σ = cauchy_stress(model, F)
-    for (i, σᵢ) in enumerate(eachrow(σ))
-        for (j, σᵢⱼ) in enumerate(σᵢ)
-            @test σᵢⱼ == σ[j, i]
-        end
-    end
-    💩 = cauchy_tangent_stiffness(model, F)
+    σ(F) = cauchy_stress(model, F)
+    P(F) = first_piola_kirchoff_stress(model, F)
+    @test σ(I) == Zero
+    @test abs(σ(SimpleShearSmall)[4]/ϵ - μ) < ϵ
+    @test abs(tr(σ(VolumetricSmall))/3/ϵ/κ - 1) < 3*ϵ
+    @test σ(F) == transpose(σ(F))
+    @test σ(F) ≈ (transpose(F)*P(F))/det(F)
+    @test P(I) == Zero
+    T = cauchy_tangent_stiffness(model, F)
     for i = 1:3
         for j = 1:3
             for k = 1:3
                 for l = 1:3
-                    @test 💩[l, k, j, i] ≈ 💩[l, k, i, j]
+                    @test T[l, k, j, i] ≈ T[l, k, i, j]
+                    Fd = MMatrix(copy(F))
+                    Fd[l, k] += ϵ/2
+                    dσᵢⱼ = σ(Fd)[j, i]
+                    Fd[l, k] -= ϵ
+                    dσᵢⱼ -= σ(Fd)[j, i]
+                    @test abs(T[l, k, j, i] - dσᵢⱼ/ϵ) < ϵ
+                end
+            end
+        end
+    end
+    C = first_piola_kirchoff_tangent_stiffness(model, F)
+    for i = 1:3
+        for j = 1:3
+            for k = 1:3
+                for l = 1:3
+                    Fd = MMatrix(copy(F))
+                    Fd[l, k] += ϵ/2
+                    dPᵢⱼ = P(Fd)[j, i]
+                    Fd[l, k] -= ϵ
+                    dPᵢⱼ -= P(Fd)[j, i]
+                    @test abs(C[l, k, j, i] - dPᵢⱼ/ϵ) < ϵ
                 end
             end
         end
@@ -50,8 +70,40 @@ function test_elastic(model)
 end
 
 function test_hyperelastic(model)
-    @test helmholtz_free_energy_density(model, I) == 0.0
-    @test helmholtz_free_energy_density(model, F) > 0.0
+    a(F) = helmholtz_free_energy_density(model, F)
+    P(F) = first_piola_kirchoff_stress(model, F)
+    @test a(I) == 0.0
+    for (i, Pᵢ) in enumerate(eachrow(P(I)))
+        for (j, Pᵢⱼ) in enumerate(Pᵢ)
+            Fd = MMatrix(copy(I))
+            Fd[i, j] += ϵ/2
+            da = a(Fd)
+            Fd[i, j] -= ϵ
+            da -= a(Fd)
+            @test abs(Pᵢⱼ - da/ϵ) < ϵ
+        end
+    end
+    @test a(F) > 0.0
+    for (i, Pᵢ) in enumerate(eachrow(P(F)))
+        for (j, Pᵢⱼ) in enumerate(Pᵢ)
+            Fd = MMatrix(copy(F))
+            Fd[i, j] += ϵ/2
+            da = a(Fd)
+            Fd[i, j] -= ϵ
+            da -= a(Fd)
+            @test abs(Pᵢⱼ - da/ϵ) < ϵ
+        end
+    end
+    C = first_piola_kirchoff_tangent_stiffness(model, F)
+    for i = 1:3
+        for j = 1:3
+            for k = 1:3
+                for l = 1:3
+                    @test C[l, k, j, i] ≈ C[j, i, l, k]
+                end
+            end
+        end
+    end
 end
 
 @testset "Almansi-Hamel model" begin

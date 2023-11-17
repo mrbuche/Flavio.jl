@@ -2,8 +2,8 @@ using LinearAlgebra, Flavio, StaticArrays, Test
 
 κ = 13.0
 μ = 3.0
+μₑ = SVector(-1.0, 3e-1, -1e-3, 1e-5)
 μₘ = 1.0
-μₑ = [-1.0, 3e-1, -1e-3, 1e-5]
 Jₘ = 23.0
 N = 8.0
 
@@ -81,4 +81,10 @@ end
     neo_hookean_model = NeoHookean(κ, μ)
     test_elastic(neo_hookean_model)
     test_hyperelastic(neo_hookean_model)
+end
+
+@testset "Yeoh model" begin
+    yeoh_model = Yeoh(κ, μ, μₑ)
+    test_elastic(yeoh_model)
+    test_hyperelastic(yeoh_model)
 end

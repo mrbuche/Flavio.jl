@@ -189,3 +189,36 @@ struct Yeoh
     μ
     μₑ
 end
+
+function cauchy_stress(model::Yeoh, F)
+    raw = ccall(
+        (:yeoh_cauchy_stress, FLAVIOSO_LIB),
+        Ptr{Float64},
+        (Float64, Float64, Ptr{Float64}, Ptr{Float64}),
+        model.κ, model.μ, model.μₑ, F
+    )
+    return SMatrix{3,3,Float64}(
+        unsafe_wrap(Array{Float64}, raw, 9, own=false)
+    )
+end
+
+function cauchy_tangent_stiffness(model::Yeoh, F)
+    raw = ccall(
+        (:yeoh_cauchy_tangent_stiffness, FLAVIOSO_LIB),
+        Ptr{Float64},
+        (Float64, Float64, Ptr{Float64}, Ptr{Float64}),
+        model.κ, model.μ, model.μₑ, F
+    )
+    return SArray{Tuple{3,3,3,3},Float64}(
+        unsafe_wrap(Array{Float64}, raw, 81, own=false)
+    )
+end
+
+function helmholtz_free_energy_density(model::Yeoh, F)
+    return ccall(
+        (:yeoh_helmholtz_free_energy_density, FLAVIOSO_LIB),
+        Float64,
+        (Float64, Float64, Ptr{Float64}, Ptr{Float64}),
+        model.κ, model.μ, model.μₑ, F
+    )
+end

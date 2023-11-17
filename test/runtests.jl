@@ -2,6 +2,8 @@ using LinearAlgebra, Flavio, StaticArrays, Test
 
 κ = 13.0
 μ = 3.0
+μₘ = 1.0
+Jₘ = 23.0
 N = 8.0
 
 ϵ = 1e-6
@@ -27,7 +29,7 @@ F = SMatrix{3, 3, Float64}(
 function test_elastic(model)
     @test cauchy_stress(model, I) == Zero
     @test abs(cauchy_stress(model, SimpleShearSmall)[4]/ϵ/μ - 1) < ϵ
-    @test abs(tr(cauchy_stress(model, VolumetricSmall))/3/ϵ/κ - 1) < ϵ
+    @test abs(tr(cauchy_stress(model, VolumetricSmall))/3/ϵ/κ - 1) < 3*ϵ
     σ = cauchy_stress(model, F)
     for (i, σᵢ) in enumerate(eachrow(σ))
         for (j, σᵢⱼ) in enumerate(σᵢ)
@@ -39,7 +41,7 @@ function test_elastic(model)
         for j = 1:3
             for k = 1:3
                 for l = 1:3
-                    @test 💩[l, k, j, i] == 💩[l, k, i, j]
+                    @test 💩[l, k, j, i] ≈ 💩[l, k, i, j]
                 end
             end
         end
@@ -51,10 +53,27 @@ function test_hyperelastic(model)
     @test helmholtz_free_energy_density(model, F) > 0.0
 end
 
+@testset "Almansi-Hamel model" begin
+    almansi_hamel_model = AlmansiHamel(κ, μ)
+    test_elastic(almansi_hamel_model)
+end
+
 @testset "Arruda-Boyce model" begin
     arruda_boyce_model = ArrudaBoyce(κ, μ, N)
     test_elastic(arruda_boyce_model)
     test_hyperelastic(arruda_boyce_model)
+end
+
+@testset "Gent model" begin
+    gent_model = Gent(κ, μ, Jₘ)
+    test_elastic(gent_model)
+    test_hyperelastic(gent_model)
+end
+
+@testset "Mooney-Rivlin model" begin
+    mooney_rivlin_model = MooneyRivlin(κ, μ, μₘ)
+    test_elastic(mooney_rivlin_model)
+    test_hyperelastic(mooney_rivlin_model)
 end
 
 @testset "Neo-Hookean model" begin

@@ -44,9 +44,9 @@ function test_elastic(model)
                     @test T[l, k, j, i] ≈ T[l, k, i, j]
                     Fd = MMatrix(copy(F))
                     Fd[l, k] += ϵ/2
-                    dσᵢⱼ = σ(Fd)[i, j]
+                    dσᵢⱼ = σ(Fd)[j, i]
                     Fd[l, k] -= ϵ
-                    dσᵢⱼ -= σ(Fd)[i, j]
+                    dσᵢⱼ -= σ(Fd)[j, i]
                     @test abs(T[l, k, j, i] - dσᵢⱼ/ϵ) < ϵ
                 end
             end

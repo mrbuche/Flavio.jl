@@ -1,7 +1,7 @@
 name: test
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 jobs:
   julia:
     strategy:
@@ -18,4 +18,4 @@ jobs:
         with:
           version: ${{ matrix.julia-version }}
       - name: test
-        run: julia --color=yes -e 'using Pkg; Pkg.add(path="."); Pkg.test("Flavio")'
+        run: julia --color=yes -e 'using Pkg; Pkg.develop(path="."); Pkg.test("Flavio")'

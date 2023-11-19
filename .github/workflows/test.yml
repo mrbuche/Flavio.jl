@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main]
 jobs:
-  julia:
+  Julia:
     strategy:
       fail-fast: false
       matrix:
@@ -11,11 +11,11 @@ jobs:
         os: [macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: julia
+      - name: Julia
         uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.julia-version }}
-      - name: test
+      - name: Test
         run: julia --color=yes -e 'using Pkg; Pkg.develop(path="."); Pkg.build("Flavio"); Pkg.test("Flavio")'

@@ -1,17 +1,12 @@
 name: publish
 on:
   release:
-    types: [ published ]
+    types: [published]
 jobs:
   Register:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
+      - uses: julia-actions/RegisterAction@latest
         with:
-          script: |
-            github.rest.repos.createCommitComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              commit_sha: context.sha,
-              body: '@JuliaRegistrator register'
-            })
+          token: ${{ secrets.GITHUB_TOKEN }}
+  

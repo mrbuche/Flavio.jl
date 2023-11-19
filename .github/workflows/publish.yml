@@ -1,0 +1,16 @@
+name: publish
+on:
+  release:
+    types: [ published ]
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha,
+              body: '@JuliaRegistrator register'
+            })

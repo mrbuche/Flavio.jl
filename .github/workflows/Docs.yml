@@ -1,4 +1,4 @@
-name: Pages
+name: Docs
 on:
   push:
     branches: [ "main" ]
@@ -6,8 +6,15 @@ on:
     branches: [ "main" ]
   release:
     types: [ "published" ]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: "Docs"
+  cancel-in-progress: true
 jobs:
-  Docs:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,5 +30,15 @@ jobs:
           julia --project=docs/ --color=yes docs/make.jl
           mkdir -p _site/julia/docs/latest/
           cp -r docs/build/* _site/julia/docs/latest/
-      - name: Deploy
+      - name: Upload
         uses: actions/upload-pages-artifact@v2
+  Deploy:
+    if: github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v2

@@ -28,8 +28,13 @@ jobs:
       - name: Dev
         run: |
           julia --project=docs/ --color=yes docs/make.jl
-          mkdir -p _site/latest/
-          cp -r docs/build/* _site/latest/
+          mkdir -p _site/dev/
+          cp -r docs/build/* _site/dev/
+      # - name: Stable
+      #   run: |
+      #     ?
+      #     mkdir -p _site/stable/
+      #     cp -r docs/build/* _site/stable/
       - name: Upload
         uses: actions/upload-pages-artifact@v2
   Deploy:

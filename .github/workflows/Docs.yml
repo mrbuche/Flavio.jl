@@ -17,24 +17,37 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
+      - name: Get last release
+        id: last_release
+        uses: InsonusK/get-latest-release@v1.1.0
+        with:
+          myToken: ${{ github.token }}
+          view_top: 1
       - name: Checkout
         uses: actions/checkout@v4
       - name: Julia
         uses: julia-actions/setup-julia@v1
         with:
           version: '1.6'
-      - name: Install
-        run: julia --project=docs/ --color=yes -e 'using Pkg; Pkg.develop(path="."); Pkg.add("Documenter"); Pkg.instantiate()'
+      - name: Documenter
+        run: julia --color=yes -e 'using Pkg; Pkg.add("Documenter")'
+      - name: Stable
+        run: |
+          julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${{ steps.last_release.outputs.tag_name }}'")'
+          julia --color=yes docs/make.jl
+          mkdir -p _site/stable/
+          cp -r docs/build/* _site/stable/
+      - name: Ref main
+        if: github.event_name != 'pull_request'
+        run: julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${GITHUB_REF##*/}'")'
+      - name: Ref PR
+        if: github.event_name == 'pull_request'
+        run: julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${GITHUB_HEAD_REF##*/}'")'
       - name: Dev
         run: |
           julia --project=docs/ --color=yes docs/make.jl
           mkdir -p _site/dev/
           cp -r docs/build/* _site/dev/
-      # - name: Stable
-      #   run: |
-      #     ?
-      #     mkdir -p _site/stable/
-      #     cp -r docs/build/* _site/stable/
       - name: Upload
         uses: actions/upload-pages-artifact@v2
   Deploy:

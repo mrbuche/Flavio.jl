@@ -1,0 +1,10 @@
+# This file is machine-generated - editing it directly is not advised
+
+julia_version = "1.9.3"
+manifest_format = "2.0"
+project_hash = "816143c72b05053dabde862a3e8dd7ee9bdfab94"
+
+[[deps.Flavio]]
+path = ".."
+uuid = "e03d936e-b143-417e-99f1-948e30aaf057"
+version = "0.1.2"

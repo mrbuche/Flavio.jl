@@ -1,3 +1,3 @@
 cd("flavioso")
-run(`cargo clippy -- -D warnings`)
+run(`cargo clippy --release -- -D warnings`)
 run(`cargo build --release`)

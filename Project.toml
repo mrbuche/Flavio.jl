@@ -8,13 +8,13 @@ DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 
 [compat]
 Aqua = "0"
-DocStringExtensions = "0"
+DocStringExtensions = "0.9"
 Documenter = "1"
 JET = "0"
 JuliaFormatter = "1"
 LinearAlgebra = "1"
 Test = "1"
-julia = "1.6 - 1.9"
+julia = "1.6 - 1.10"
 
 [extras]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"

@@ -8,7 +8,7 @@ DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 
 [compat]
 Aqua = "0"
-DocStringExtensions = "0"
+DocStringExtensions = "0.9"
 Documenter = "1"
 JET = "0"
 JuliaFormatter = "1"

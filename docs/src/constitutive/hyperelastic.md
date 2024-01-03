@@ -1,17 +1,12 @@
 # Hyperelastic
 
+  * [Arruda-Boyce](hyperelastic/arruda_boyce.md)
   * [Gent](hyperelastic/gent.md)
+  * [Mooney-Rivlin](hyperelastic/mooney_rivlin.md)
+  * [Neo-Hookean](hyperelastic/neo_hookean.md)
 
-## Methods
-
-```@docs
-cauchy_stress(model::Hyperelastic, F)
-```
+## Functions
 
 ```@docs
-cauchy_tangent_stiffness(model::Hyperelastic, F)
-```
-
-```@docs
-helmholtz_free_energy_density(model::Hyperelastic, F)
+helmholtz_free_energy_density
 ```

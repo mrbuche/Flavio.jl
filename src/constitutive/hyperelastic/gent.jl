@@ -1,8 +1,10 @@
 using DocStringExtensions
 
-#import ....Flavio: Hyperelastic
-
-struct Gent# <: Hyperelastic
+"""
+**Parameters**
+$(FIELDS)
+"""
+struct Gent
     κ::Real
     μ::Real
     Jₘ::Real
@@ -40,6 +42,9 @@ function cauchy_tangent_stiffness(model::Gent, F)
     return reshape(unsafe_wrap(Array{Float64}, raw, 81, own = false), (3, 3, 3, 3))
 end
 
+"""
+$(TYPEDSIGNATURES)
+"""
 function first_piola_kirchoff_stress(model::Gent, F)
     raw = ccall(
         (:gent_first_piola_kirchoff_stress, FLAVIOSO_LIB),
@@ -53,6 +58,9 @@ function first_piola_kirchoff_stress(model::Gent, F)
     return reshape(unsafe_wrap(Array{Float64}, raw, 9, own = false), (3, 3))
 end
 
+"""
+$(TYPEDSIGNATURES)
+"""
 function first_piola_kirchoff_tangent_stiffness(model::Gent, F)
     raw = ccall(
         (:gent_first_piola_kirchoff_tangent_stiffness, FLAVIOSO_LIB),
@@ -68,9 +76,6 @@ end
 
 """
 $(TYPEDSIGNATURES)
-```math
-a(\\mathbf{F}) = -\\frac{\\mu J_m}{2}\\,\\ln\\left[1 - \\frac{\\mathrm{tr}(\\mathbf{B}^* ) - 3}{J_m}\\right] + \\frac{\\kappa}{2}\\left[\\frac{1}{2}\\left(J^2 - 1\\right) - \\ln J\\right]
-```
 """
 function helmholtz_free_energy_density(model::Gent, F)
     return ccall(

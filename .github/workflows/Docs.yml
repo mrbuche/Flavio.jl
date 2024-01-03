@@ -37,6 +37,8 @@ jobs:
         run: julia --color=yes -e 'using Pkg; Pkg.add("Documenter")'
       - name: Stable
         run: |
+          pwd
+          ls -ltrah
           julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${{ steps.last_release.outputs.tag_name }}'")'
           julia --color=yes docs/make.jl
           mkdir -p _site/stable/

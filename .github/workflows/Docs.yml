@@ -41,8 +41,8 @@ jobs:
           ls -ltrah
           julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${{ steps.last_release.outputs.tag_name }}'")'
           julia --color=yes docs/make.jl
-          mkdir -p _site/stable/
-          cp -r docs/build/* _site/stable/
+          mkdir -p ../_site/stable/
+          cp -r docs/build/* ../_site/stable/
       - name: Checkout latest
         uses: actions/checkout@v4
       - name: Latest from main
@@ -54,10 +54,12 @@ jobs:
       - name: Latest
         run: |
           julia --project=docs/ --color=yes docs/make.jl
-          mkdir -p _site/latest/
-          cp -r docs/build/* _site/latest/
+          mkdir -p ../_site/latest/
+          cp -r docs/build/* ../_site/latest/
       - name: Upload
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: ../_site/
   Deploy:
     if: github.event_name != 'pull_request'
     environment:

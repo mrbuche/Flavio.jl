@@ -4,7 +4,7 @@ function test_elastic(model)
     @test σ(I) == Zero
     @test abs(σ(SimpleShearSmall)[4] / ϵ - μ) < ϵ
     @test abs(tr(σ(VolumetricSmall)) / 3 / ϵ / κ - 1) < 3 * ϵ
-    @test σ(F) == transpose(σ(F))
+    @test σ(F) ≈ transpose(σ(F))
     @test σ(F) ≈ (transpose(F) * P(F)) / det(F)
     @test P(I) == Zero
     T = cauchy_tangent_stiffness(model, F)

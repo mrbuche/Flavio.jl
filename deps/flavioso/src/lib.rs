@@ -13,7 +13,8 @@ use flavio::
             ArrudaBoyceModel,
             GentModel,
             MooneyRivlinModel,
-            NeoHookeanModel
+            NeoHookeanModel,
+            SaintVenantKirchoffModel
         }
     },
     math::
@@ -498,6 +499,99 @@ unsafe extern fn neo_hookean_helmholtz_free_energy_density(
     deformation_gradient: *const [[Scalar; 3]; 3]
 ) -> Scalar {
     NeoHookeanModel::new(
+        &[bulk_modulus, shear_modulus]
+    ).calculate_helmholtz_free_energy_density(
+        &DeformationGradient::new(
+            std::slice::from_raw_parts(
+                deformation_gradient, 9
+            )[0]
+        )
+    )
+}
+
+#[no_mangle]
+unsafe extern fn saint_venant_kirchoff_cauchy_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        SaintVenantKirchoffModel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_cauchy_stress(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn saint_venant_kirchoff_cauchy_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        SaintVenantKirchoffModel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_cauchy_tangent_stiffness(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn saint_venant_kirchoff_first_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        SaintVenantKirchoffModel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_first_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn saint_venant_kirchoff_first_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        SaintVenantKirchoffModel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_first_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                std::slice::from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn saint_venant_kirchoff_helmholtz_free_energy_density(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> Scalar {
+    SaintVenantKirchoffModel::new(
         &[bulk_modulus, shear_modulus]
     ).calculate_helmholtz_free_energy_density(
         &DeformationGradient::new(

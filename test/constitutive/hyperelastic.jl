@@ -58,3 +58,9 @@ end
     test_elastic(neo_hookean_model)
     test_hyperelastic(neo_hookean_model)
 end
+
+@testset "Saint Venant-Kirchoff model" begin
+    saint_venant_kirchoff_model = SaintVenantKirchoff(κ, μ)
+    test_elastic(saint_venant_kirchoff_model)
+    test_hyperelastic(saint_venant_kirchoff_model)
+end

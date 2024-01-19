@@ -11,7 +11,7 @@ cauchy_stress(model::Fung, F)
 ```
 
 ```@docs
-cauchy_tanFung_stiffness(model::Fung, F)
+cauchy_tangent_stiffness(model::Fung, F)
 ```
 
 ```@docs
@@ -19,7 +19,7 @@ first_piola_kirchoff_stress(model::Fung, F)
 ```
 
 ```@docs
-first_piola_kirchoff_tanFung_stiffness(model::Fung, F)
+first_piola_kirchoff_tangent_stiffness(model::Fung, F)
 ```
 
 ```@docs

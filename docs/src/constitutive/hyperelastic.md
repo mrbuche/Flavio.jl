@@ -2,6 +2,7 @@
 
   * [Arruda-Boyce](hyperelastic/arruda_boyce.md)
   * [Gent](hyperelastic/gent.md)
+  * [Fung](hyperelastic/fung.md)
   * [Mooney-Rivlin](hyperelastic/mooney_rivlin.md)
   * [Neo-Hookean](hyperelastic/neo_hookean.md)
   * [Saint Venant-Kirchoff](hyperelastic/saint_venant_kirchoff.md)

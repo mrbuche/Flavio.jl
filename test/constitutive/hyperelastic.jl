@@ -47,6 +47,12 @@ end
     test_hyperelastic(gent_model)
 end
 
+@testset "Fung model" begin
+    fung_model = Fung(κ, μ, μₘ, η)
+    test_elastic(fung_model)
+    test_hyperelastic(fung_model)
+end
+
 @testset "Mooney-Rivlin model" begin
     mooney_rivlin_model = MooneyRivlin(κ, μ, μₘ)
     test_elastic(mooney_rivlin_model)

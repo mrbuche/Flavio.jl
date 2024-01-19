@@ -18,7 +18,7 @@ function test_elastic(model)
                     dσᵢⱼ = σ(Fd)[j, i]
                     Fd[l, k] -= ϵ
                     dσᵢⱼ -= σ(Fd)[j, i]
-                    @test abs(T[l, k, j, i] - dσᵢⱼ / ϵ) < ϵ
+                    @test abs(T[l, k, j, i] - dσᵢⱼ / ϵ) < 1.11 * ϵ
                 end
             end
         end

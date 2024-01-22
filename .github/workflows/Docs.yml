@@ -55,7 +55,7 @@ jobs:
       - name: Latest from PR
         if: github.event_name == 'pull_request'
         run: |
-          julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${GITHUB_HEAD_REF##*/}'")'
+          julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${GITHUB_HEAD_REF##*/}'"); Pkg.build("Flavio")'
           julia --project=docs/ --color=yes docs/make.jl
           mkdir -p ../_site/latest/
           cp -r docs/build/* ../_site/latest/

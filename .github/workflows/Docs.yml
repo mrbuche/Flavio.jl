@@ -39,8 +39,6 @@ jobs:
         run: julia --color=yes -e 'using Pkg; Pkg.add("Plots")'
       - name: Stable
         run: |
-          pwd
-          ls -ltrah
           julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${{ steps.last_release.outputs.tag_name }}'")'
           julia --color=yes docs/make.jl
           mkdir -p ../_site/stable/
@@ -49,12 +47,15 @@ jobs:
         uses: actions/checkout@v4
       - name: Latest from main
         if: github.event_name != 'pull_request'
-        run: julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${GITHUB_REF##*/}'")'
+        run: |
+          julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${GITHUB_REF##*/}'")'
+          julia --project=docs/ --color=yes docs/make.jl
+          mkdir -p ../_site/latest/
+          cp -r docs/build/* ../_site/latest/
       - name: Latest from PR
         if: github.event_name == 'pull_request'
-        run: julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${GITHUB_HEAD_REF##*/}'")'
-      - name: Latest
         run: |
+          julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${GITHUB_HEAD_REF##*/}'")'
           julia --project=docs/ --color=yes docs/make.jl
           mkdir -p ../_site/latest/
           cp -r docs/build/* ../_site/latest/

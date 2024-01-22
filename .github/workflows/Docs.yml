@@ -35,6 +35,8 @@ jobs:
         run: julia --color=yes -e 'using Pkg; Pkg.add("DocStringExtensions")'
       - name: Documenter
         run: julia --color=yes -e 'using Pkg; Pkg.add("Documenter")'
+      - name: Plots
+        run: julia --color=yes -e 'using Pkg; Pkg.add("Plots")'
       - name: Stable
         run: |
           pwd

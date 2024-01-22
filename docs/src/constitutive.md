@@ -1,7 +1,7 @@
 # Constitutive
 
-  * [Elastic](constitutive/elastic.md)
-  * [Hyperelastic](constitutive/hyperelastic.md)
+* [Elastic](constitutive/elastic.md)
+* [Hyperelastic](constitutive/hyperelastic.md)
 
 ## Functions
 

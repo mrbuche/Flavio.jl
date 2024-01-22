@@ -8,5 +8,5 @@ makedocs(
         "Constitutive" => "constitutive.md",
         "Index" => "genindex.md",
     ],
-    sitename = "Flavio.jl"
+    sitename = "Flavio.jl",
 )

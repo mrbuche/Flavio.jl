@@ -23,10 +23,6 @@ jobs:
         with:
           myToken: ${{ github.token }}
           view_top: 1
-      - name: Checkout stable
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.last_release.outputs.tag_name }}
       - name: Julia
         uses: julia-actions/setup-julia@v1
         with:
@@ -37,9 +33,14 @@ jobs:
         run: julia --color=yes -e 'using Pkg; Pkg.add("Documenter")'
       - name: Plots
         run: julia --color=yes -e 'using Pkg; Pkg.add("Plots")'
+      - name: Checkout stable
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.last_release.outputs.tag_name }}
       - name: Stable
         run: |
-          julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${{ steps.last_release.outputs.tag_name }}'")'
+          cat Project.toml
+          julia --color=yes -e 'using Pkg; Pkg.add(path=".")'
           julia --color=yes docs/make.jl
           mkdir -p ../_site/stable/
           cp -r docs/build/* ../_site/stable/
@@ -55,7 +56,8 @@ jobs:
       - name: Latest from PR
         if: github.event_name == 'pull_request'
         run: |
-          julia --color=yes -e 'using Pkg; Pkg.add(url="https://github.com/mrbuche/Flavio.jl", rev="'${GITHUB_HEAD_REF##*/}'"); Pkg.build("Flavio")'
+          cat Project.toml
+          julia --color=yes -e 'using Pkg; Pkg.add(path=".")'
           julia --project=docs/ --color=yes docs/make.jl
           mkdir -p ../_site/latest/
           cp -r docs/build/* ../_site/latest/

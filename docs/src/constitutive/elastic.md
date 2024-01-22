@@ -1,3 +1,3 @@
 # Elastic
 
-  * [Almansi-Hamel](elastic/almansi_hamel.md)
+* [Almansi-Hamel](elastic/almansi_hamel.md)

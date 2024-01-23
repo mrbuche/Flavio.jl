@@ -22,6 +22,7 @@
 ```@raw html
     </div>
     <div>
+        <p style="margin:18px;"></p>
         <picture>
             <source srcset="../dark.svg" media="(prefers-color-scheme: dark)"/>
             <img src="../light.svg" alt="Unable to load plot."/>
@@ -29,7 +30,7 @@
 ```
 
 ```@setup
-using LaTeXStrings, Flavio, Plots
+using Flavio, Plots
 function σ₁₁(model, λ)
     σ₁₁ = zeros(length(λ))
     for (i, λᵢ) in enumerate(λ)

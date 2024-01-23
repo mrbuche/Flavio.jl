@@ -1,8 +1,15 @@
 # Hyperelastic
 
 ```@raw html
-<div style="overflow: hidden; width: 100%">
-<div style="float: left; width: 30%">
+<style>
+    .subsectionTitle {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+</style>
+<div class="subsectionTitle">
+    <div>
 ```
 
 * [Arruda-Boyce](hyperelastic/arruda_boyce.md)
@@ -13,13 +20,16 @@
 * [Saint Venant-Kirchoff](hyperelastic/saint_venant_kirchoff.md)
 
 ```@raw html
-</div><div style="float: right; width: 70%">
-<picture><source srcset="../dark.svg" media="(prefers-color-scheme: dark)"/>
-<img src="../light.svg" alt="Unable to load plot."/></picture>
+    </div>
+    <div>
+        <picture>
+            <source srcset="../dark.svg" media="(prefers-color-scheme: dark)"/>
+            <img src="../light.svg" alt="Unable to load plot."/>
+        </picture>
 ```
 
 ```@setup
-using Flavio, Plots
+using LaTeXStrings, Flavio, Plots
 function σ₁₁(model, λ)
     σ₁₁ = zeros(length(λ))
     for (i, λᵢ) in enumerate(λ)
@@ -33,8 +43,8 @@ p = plot(background_color=:transparent, foreground_color=:white,
          foreground_color_border=colorant"#5e6d6f",
          foreground_color_legend=colorant"#5e6d6f",
          grid=false, legendfontsize=8,
-         xlabel="λ", xtickfontsize=10, xlims=(0, 5),
-         ylabel="σ/μ", ytickfontsize=10, ylims=(-10, 20))
+         xlabel="λ", xguidefontsize=10, xtickfontsize=10, xlims=(0, 5),
+         ylabel="σ/μ", yguidefontsize=10, ytickfontsize=10, ylims=(-10, 20))
 λ = 10 .^ range(-1, 0.7, length=100)
 plot!(λ, σ₁₁(ArrudaBoyce(1.0, 1.0, 16), λ), linewidth=2, label="Arruda-Boyce")
 plot!(λ, σ₁₁(Fung(1.0, 1.0, 1.0, 0.1), λ), linewidth=2, label="Fung")
@@ -48,7 +58,8 @@ savefig(p, "light.svg")
 ```
 
 ```@raw html
-</div></div>
+    </div>
+</div>
 ```
 
 ## Functions

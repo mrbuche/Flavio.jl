@@ -1,2 +1,5 @@
 [deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 Flavio = "e03d936e-b143-417e-99f1-948e30aaf057"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"

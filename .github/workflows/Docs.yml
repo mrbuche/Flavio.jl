@@ -26,13 +26,9 @@ jobs:
       - name: Julia
         uses: julia-actions/setup-julia@v1
         with:
-          version: '1.6'
-      - name: DocStringExtensions
-        run: julia --color=yes -e 'using Pkg; Pkg.add("DocStringExtensions")'
-      - name: Documenter
-        run: julia --color=yes -e 'using Pkg; Pkg.add("Documenter")'
-      - name: Plots
-        run: julia --color=yes -e 'using Pkg; Pkg.add("Plots")'
+          version: '1.7'
+      - name: Dependencies
+        run: julia --color=yes -e 'using Pkg; Pkg.add(["DocStringExtensions", "Documenter", "Plots"])'
       - name: Checkout stable
         uses: actions/checkout@v4
         with:

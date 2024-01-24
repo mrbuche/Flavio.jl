@@ -26,7 +26,7 @@ jobs:
       - name: Julia
         uses: julia-actions/setup-julia@v1
         with:
-          version: '1.7'
+          version: '1.9'
       - name: Dependencies
         run: julia --color=yes -e 'using Pkg; Pkg.add(["DocStringExtensions", "Documenter", "LaTeXStrings", "Plots"])'
       - name: Checkout stable
@@ -36,7 +36,7 @@ jobs:
       - name: Stable
         run: |
           julia --color=yes -e 'using Pkg; Pkg.develop(path="."); Pkg.build("Flavio")'
-          julia --project=docs/ --color=yes docs/make.jl
+          julia --color=yes docs/make.jl
           mkdir -p ../_site/stable/
           cp -r docs/build/* ../_site/stable/
       - name: Checkout latest
@@ -44,7 +44,7 @@ jobs:
       - name: Latest
         run: |
           julia --color=yes -e 'using Pkg; Pkg.develop(path="."); Pkg.build("Flavio")'
-          julia --project=docs/ --color=yes docs/make.jl
+          julia --color=yes docs/make.jl
           mkdir -p ../_site/latest/
           cp -r docs/build/* ../_site/latest/
       - name: Upload

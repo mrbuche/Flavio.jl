@@ -24,8 +24,8 @@
     <div>
         <p style="margin:18px;"></p>
         <picture>
-            <source srcset="../dark.svg" media="(prefers-color-scheme: dark)"/>
-            <img src="../light.svg" alt="Unable to load plot."/>
+            <source srcset="plot-models-dark.svg" media="(prefers-color-scheme: dark)"/>
+            <img src="plot-models-light.svg" alt="Unable to load plot."/>
         </picture>
 ```
 
@@ -54,9 +54,9 @@ plot!(λ, σ₁₁(Gent(1.0, 1.0, 30.0), λ), linewidth=2, label="Gent")
 plot!(λ, σ₁₁(MooneyRivlin(1.0, 1.0, 0.3), λ), linewidth=2, label="Mooney-Rivlin")
 plot!(λ, σ₁₁(NeoHookean(1.0, 1.0), λ), linewidth=2, label="Neo-Hookean")
 plot!(λ, σ₁₁(SaintVenantKirchoff(1.0, 1.0), λ), linewidth=2, label="St. Venant-Kirchoff")
-savefig(p, "dark.svg")
+savefig(p, "hyperelastic/plot-models-dark.svg")
 plot!(background_color=:transparent, foreground_color=:black)
-savefig(p, "light.svg")
+savefig(p, "hyperelastic/plot-models-light.svg")
 ```
 
 ```@raw html

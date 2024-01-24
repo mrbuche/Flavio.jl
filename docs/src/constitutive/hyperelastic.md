@@ -43,7 +43,8 @@ p = plot(background_color=:transparent, foreground_color=:white,
          foreground_color_axis=colorant"#5e6d6f",
          foreground_color_border=colorant"#5e6d6f",
          foreground_color_legend=colorant"#5e6d6f",
-         grid=false, legendfontsize=8, margin=5Plots.mm,
+         grid=false, legendfontsize=8,
+         left_margin=10Plots.mm, bottom_margin=5Plots.mm,
          xlabel="λ", xguidefontsize=10, xtickfontsize=10, xlims=(0, 5),
          ylabel="σ/μ", yguidefontsize=10, ytickfontsize=10, ylims=(-10, 20))
 λ = 10 .^ range(-1, 0.7, length=100)

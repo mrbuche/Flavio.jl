@@ -43,11 +43,11 @@ p = plot(background_color=:transparent, foreground_color=:white,
          foreground_color_axis=colorant"#5e6d6f",
          foreground_color_border=colorant"#5e6d6f",
          foreground_color_legend=colorant"#5e6d6f",
-         grid=false, legendfontsize=8,
+         grid=false, legend=:bottomright, legendfontsize=10,
          left_margin=10Plots.mm, bottom_margin=5Plots.mm,
          xlabel="λ", xguidefontsize=10, xtickfontsize=10, xlims=(0, 5),
          ylabel="σ/μ", yguidefontsize=10, ytickfontsize=10, ylims=(-10, 20))
-λ = 10 .^ range(-1, 0.7, length=100)
+λ = range(0.1, 5.0, length=333)
 plot!(λ, σ₁₁(ArrudaBoyce(1.0, 1.0, 16), λ), linewidth=2, label="Arruda-Boyce")
 plot!(λ, σ₁₁(Fung(1.0, 1.0, 1.0, 0.1), λ), linewidth=2, label="Fung")
 plot!(λ, σ₁₁(Gent(1.0, 1.0, 30.0), λ), linewidth=2, label="Gent")

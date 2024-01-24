@@ -30,7 +30,7 @@
 ```
 
 ```@setup
-using Flavio, Plots
+using LaTeXStrings, Flavio, Plots
 function σ₁₁(model, λ)
     σ₁₁ = zeros(length(λ))
     for (i, λᵢ) in enumerate(λ)
@@ -44,8 +44,8 @@ p = plot(background_color=:transparent, foreground_color=:white,
          foreground_color_border=colorant"#5e6d6f",
          foreground_color_legend=colorant"#5e6d6f",
          grid=false, legendfontsize=8,
-         xlabel="λ", xguidefontsize=10, xtickfontsize=10, xlims=(0, 5),
-         ylabel="σ/μ", yguidefontsize=10, ytickfontsize=10, ylims=(-10, 20))
+         xlabel=L"\lambda", xguidefontsize=10, xtickfontsize=10, xlims=(0, 5),
+         ylabel=L"\sigma/\mu", yguidefontsize=10, ytickfontsize=10, ylims=(-10, 20))
 λ = 10 .^ range(-1, 0.7, length=100)
 plot!(λ, σ₁₁(ArrudaBoyce(1.0, 1.0, 16), λ), linewidth=2, label="Arruda-Boyce")
 plot!(λ, σ₁₁(Fung(1.0, 1.0, 1.0, 0.1), λ), linewidth=2, label="Fung")

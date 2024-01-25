@@ -28,7 +28,7 @@ jobs:
         with:
           version: '1.9'
       - name: Dependencies
-        run: julia --color=yes -e 'using Pkg; Pkg.add(["DocStringExtensions", "Documenter", "LaTeXStrings", "Plots"])'
+        run: julia --color=yes -e 'using Pkg; Pkg.add(["DocStringExtensions", "Documenter"])'
       - name: Checkout stable
         uses: actions/checkout@v4
         with:

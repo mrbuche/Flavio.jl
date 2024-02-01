@@ -1,2 +1,1 @@
-include("constitutive/elastic.jl")
-include("constitutive/hyperelastic.jl")
+include("constitutive/solid.jl")

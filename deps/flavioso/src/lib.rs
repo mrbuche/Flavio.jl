@@ -3,30 +3,29 @@ use flavio::
     constitutive::
     {
         ConstitutiveModel,
-        elastic::
+        solid::
         {
-            AlmansiHamelModel
-        },
-        hyperelastic::
-        {
-            HyperelasticConstitutiveModel,
-            ArrudaBoyceModel,
-            FungModel,
-            GentModel,
-            MooneyRivlinModel,
-            NeoHookeanModel,
-            SaintVenantKirchoffModel
+            elastic::
+            {
+                ElasticConstitutiveModel,
+                AlmansiHamelModel
+            },
+            hyperelastic::
+            {
+                HyperelasticConstitutiveModel,
+                ArrudaBoyceModel,
+                FungModel,
+                GentModel,
+                MooneyRivlinModel,
+                NeoHookeanModel,
+                SaintVenantKirchoffModel
+            }
         }
     },
     math::
     {
         TensorRank2Trait,
-        TensorRank4Trait,
-        special::
-        {
-            inverse_langevin as flavio_inverse_langevin,
-            langevin as flavio_langevin
-        }
+        TensorRank4Trait
     },
     mechanics::
     {
@@ -34,18 +33,6 @@ use flavio::
         Scalar
     }
 };
-
-#[no_mangle]
-pub extern fn inverse_langevin(y: Scalar) -> Scalar
-{
-    flavio_inverse_langevin(y)
-}
-
-#[no_mangle]
-pub extern fn langevin(x: Scalar) -> Scalar
-{
-    flavio_langevin(x)
-}
 
 #[no_mangle]
 unsafe extern fn almansi_hamel_cauchy_stress(

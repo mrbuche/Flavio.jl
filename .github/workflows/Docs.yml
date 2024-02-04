@@ -35,6 +35,10 @@ jobs:
           ref: ${{ steps.last_release.outputs.tag_name }}
       - name: Stable
         run: |
+          ls -ltrah
+          cat Project.toml
+          cat deps/flavioso/Cargo.toml
+          cat deps/flavioso/src/lib.rs
           julia --color=yes -e 'using Pkg; Pkg.develop(path="."); Pkg.build("Flavio")'
           julia --color=yes docs/make.jl
           mkdir -p ../_site/stable/

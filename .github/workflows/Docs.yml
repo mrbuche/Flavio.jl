@@ -35,6 +35,7 @@ jobs:
           ref: ${{ steps.last_release.outputs.tag_name }}
       - name: Stable
         run: |
+          sed -i 's/{ version = "/{ version = "=/' deps/flavioso/Cargo.toml
           julia --color=yes -e 'using Pkg; Pkg.develop(path="."); Pkg.build("Flavio")'
           julia --color=yes docs/make.jl
           mkdir -p ../_site/stable/

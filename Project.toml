@@ -1,7 +1,7 @@
 name = "Flavio"
 uuid = "e03d936e-b143-417e-99f1-948e30aaf057"
 authors = ["Michael Robert Buche <dev@mrbuche.com>"]
-version = "0.1.7"
+version = "0.1.8"
 
 [deps]
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"

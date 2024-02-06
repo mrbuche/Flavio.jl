@@ -2,7 +2,7 @@ use flavio::
 {
     constitutive::
     {
-        ConstitutiveModel,
+        Constitutive,
         solid::
         {
             elastic::

@@ -6,6 +6,7 @@
 * [Mooney-Rivlin](hyperelastic/mooney_rivlin.md)
 * [Neo-Hookean](hyperelastic/neo_hookean.md)
 * [Saint Venant-Kirchoff](hyperelastic/saint_venant_kirchoff.md)
+* [Yeoh](hyperelastic/yeoh.md)
 
 ## Functions
 

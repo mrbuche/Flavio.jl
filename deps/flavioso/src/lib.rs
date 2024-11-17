@@ -717,6 +717,81 @@ unsafe extern fn yeoh_cauchy_stress(
 }
 
 #[no_mangle]
+unsafe extern fn yeoh_cauchy_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extra_moduli: *const Scalar,
+    len_extra_moduli: usize,
+    deformation_gradient: *const [[Scalar; 3]; 3],
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        Yeoh::new(
+            &[
+                &[bulk_modulus], &[shear_modulus], from_raw_parts(
+                    extra_moduli, len_extra_moduli
+                )
+            ].concat()
+        ).calculate_cauchy_tangent_stiffness(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn yeoh_first_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extra_moduli: *const Scalar,
+    len_extra_moduli: usize,
+    deformation_gradient: *const [[Scalar; 3]; 3],
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        Yeoh::new(
+            &[
+                &[bulk_modulus], &[shear_modulus], from_raw_parts(
+                    extra_moduli, len_extra_moduli
+                )
+            ].concat()
+        ).calculate_first_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn yeoh_first_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extra_moduli: *const Scalar,
+    len_extra_moduli: usize,
+    deformation_gradient: *const [[Scalar; 3]; 3],
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        Yeoh::new(
+            &[
+                &[bulk_modulus], &[shear_modulus], from_raw_parts(
+                    extra_moduli, len_extra_moduli
+                )
+            ].concat()
+        ).calculate_first_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
 unsafe extern fn yeoh_helmholtz_free_energy_density(
     bulk_modulus: Scalar,
     shear_modulus: Scalar,

@@ -27,53 +27,56 @@ function cauchy_stress(model::Yeoh, F)
     return reshape(unsafe_wrap(Array{Float64}, raw, 9, own = false), (3, 3))
 end
 
-# """
-# $(TYPEDSIGNATURES)
-# """
-# function cauchy_tangent_stiffness(model::Yeoh, F)
-#     raw = ccall(
-#         (:gent_cauchy_tangent_stiffness, FLAVIOSO_LIB),
-#         Ptr{Float64},
-#         (Float64, Float64, Float64, Ptr{Float64}),
-#         model.κ,
-#         model.μ,
-#         model.Jₘ,
-#         F,
-#     )
-#     return reshape(unsafe_wrap(Array{Float64}, raw, 81, own = false), (3, 3, 3, 3))
-# end
+"""
+$(TYPEDSIGNATURES)
+"""
+function cauchy_tangent_stiffness(model::Yeoh, F)
+    raw = ccall(
+        (:yeoh_cauchy_tangent_stiffness, FLAVIOSO_LIB),
+        Ptr{Float64},
+        (Float64, Float64, Ptr{Float64}, UInt8, Ptr{Float64}),
+        model.κ,
+        model.μ,
+        model.μₑ,
+        length(model.μₑ),
+        F,
+    )
+    return reshape(unsafe_wrap(Array{Float64}, raw, 81, own = false), (3, 3, 3, 3))
+end
 
-# """
-# $(TYPEDSIGNATURES)
-# """
-# function first_piola_kirchoff_stress(model::Yeoh, F)
-#     raw = ccall(
-#         (:gent_first_piola_kirchoff_stress, FLAVIOSO_LIB),
-#         Ptr{Float64},
-#         (Float64, Float64, Float64, Ptr{Float64}),
-#         model.κ,
-#         model.μ,
-#         model.Jₘ,
-#         F,
-#     )
-#     return reshape(unsafe_wrap(Array{Float64}, raw, 9, own = false), (3, 3))
-# end
+"""
+$(TYPEDSIGNATURES)
+"""
+function first_piola_kirchoff_stress(model::Yeoh, F)
+    raw = ccall(
+        (:yeoh_first_piola_kirchoff_stress, FLAVIOSO_LIB),
+        Ptr{Float64},
+        (Float64, Float64, Ptr{Float64}, UInt8, Ptr{Float64}),
+        model.κ,
+        model.μ,
+        model.μₑ,
+        length(model.μₑ),
+        F,
+    )
+    return reshape(unsafe_wrap(Array{Float64}, raw, 9, own = false), (3, 3))
+end
 
-# """
-# $(TYPEDSIGNATURES)
-# """
-# function first_piola_kirchoff_tangent_stiffness(model::Yeoh, F)
-#     raw = ccall(
-#         (:gent_first_piola_kirchoff_tangent_stiffness, FLAVIOSO_LIB),
-#         Ptr{Float64},
-#         (Float64, Float64, Float64, Ptr{Float64}),
-#         model.κ,
-#         model.μ,
-#         model.Jₘ,
-#         F,
-#     )
-#     return reshape(unsafe_wrap(Array{Float64}, raw, 81, own = false), (3, 3, 3, 3))
-# end
+"""
+$(TYPEDSIGNATURES)
+"""
+function first_piola_kirchoff_tangent_stiffness(model::Yeoh, F)
+    raw = ccall(
+        (:yeoh_first_piola_kirchoff_tangent_stiffness, FLAVIOSO_LIB),
+        Ptr{Float64},
+        (Float64, Float64, Ptr{Float64}, UInt8, Ptr{Float64}),
+        model.κ,
+        model.μ,
+        model.μₑ,
+        length(model.μₑ),
+        F,
+    )
+    return reshape(unsafe_wrap(Array{Float64}, raw, 81, own = false), (3, 3, 3, 3))
+end
 
 """
 $(TYPEDSIGNATURES)

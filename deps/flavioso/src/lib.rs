@@ -23,7 +23,7 @@ use flavio::
             }
         }
     },
-    math::Tensor,
+    math::TensorArray,
     mechanics::
     {
         DeformationGradient,

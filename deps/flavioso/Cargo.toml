@@ -9,7 +9,7 @@ name = "flavioso"
 version = "0.1.0"
 
 [dependencies]
-flavio = { version = "=0.4.9", features = ["constitutive"] }
+flavio = { version = "=0.5.0", features = ["constitutive"] }
 
 [lib]
 crate-type = ["cdylib"]

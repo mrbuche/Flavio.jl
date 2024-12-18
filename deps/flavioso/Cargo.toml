@@ -1,10 +1,15 @@
 [package]
+authors = ["Michael R. Buche <dev@mrbuche.com>"]
+categories = ["mathematics", "science"]
+description = "flavio welcomes you"
+edition = "2021"
+keywords = ["flavio", "mrbuche"]
+license = "GPL-3.0"
 name = "flavioso"
 version = "0.1.0"
-edition = "2021"
 
 [dependencies]
-flavio = { version = "=0.4.9", features = ["constitutive"] }
+flavio = { version = "=0.5.0", features = ["constitutive"] }
 
 [lib]
 crate-type = ["cdylib"]

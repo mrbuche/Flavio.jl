@@ -21,3 +21,11 @@ first_piola_kirchoff_stress(model::AlmansiHamel, F)
 ```@docs
 first_piola_kirchoff_tangent_stiffness(model::AlmansiHamel, F)
 ```
+
+```@docs
+second_piola_kirchoff_stress(model::AlmansiHamel, F)
+```
+
+```@docs
+second_piola_kirchoff_tangent_stiffness(model::AlmansiHamel, F)
+```

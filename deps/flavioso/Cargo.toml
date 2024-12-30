@@ -9,7 +9,7 @@ name = "flavioso"
 version = "0.1.0"
 
 [dependencies]
-flavio = { version = "=0.5.0", features = ["constitutive"] }
+flavio = { git = "https://github.com/mrbuche/flavio.git", rev = "01b91c8d702199d02447e7ccd90c063229d176c9", features = ["constitutive"] }
 
 [lib]
 crate-type = ["cdylib"]

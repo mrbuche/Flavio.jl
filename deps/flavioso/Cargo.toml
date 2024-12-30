@@ -1,7 +1,12 @@
 [package]
+authors = ["Michael R. Buche <dev@mrbuche.com>"]
+categories = ["mathematics", "science"]
+description = "flavio welcomes you"
+edition = "2021"
+keywords = ["flavio", "mrbuche"]
+license = "GPL-3.0"
 name = "flavioso"
 version = "0.1.0"
-edition = "2021"
 
 [dependencies]
 flavio = { git = "https://github.com/mrbuche/flavio.git", rev = "01b91c8d702199d02447e7ccd90c063229d176c9", features = ["constitutive"] }

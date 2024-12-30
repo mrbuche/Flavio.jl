@@ -109,6 +109,44 @@ unsafe extern fn almansi_hamel_first_piola_kirchoff_tangent_stiffness(
 }
 
 #[no_mangle]
+unsafe extern fn almansi_hamel_second_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        AlmansiHamel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_second_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn almansi_hamel_second_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        AlmansiHamel::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_second_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
 unsafe extern fn arruda_boyce_cauchy_stress(
     bulk_modulus: Scalar,
     shear_modulus: Scalar,
@@ -179,6 +217,46 @@ unsafe extern fn arruda_boyce_first_piola_kirchoff_tangent_stiffness(
         ArrudaBoyce::new(
             &[bulk_modulus, shear_modulus, number_of_links]
         ).calculate_first_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn arruda_boyce_second_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    number_of_links: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        ArrudaBoyce::new(
+            &[bulk_modulus, shear_modulus, number_of_links]
+        ).calculate_second_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn arruda_boyce_second_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    number_of_links: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        ArrudaBoyce::new(
+            &[bulk_modulus, shear_modulus, number_of_links]
+        ).calculate_second_piola_kirchoff_tangent_stiffness(
             &DeformationGradient::new(
                 from_raw_parts(
                     deformation_gradient, 9
@@ -287,6 +365,46 @@ unsafe extern fn gent_first_piola_kirchoff_tangent_stiffness(
 }
 
 #[no_mangle]
+unsafe extern fn gent_second_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extensibility: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        Gent::new(
+            &[bulk_modulus, shear_modulus, extensibility]
+        ).calculate_second_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn gent_second_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extensibility: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        Gent::new(
+            &[bulk_modulus, shear_modulus, extensibility]
+        ).calculate_second_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
 unsafe extern fn gent_helmholtz_free_energy_density(
     bulk_modulus: Scalar,
     shear_modulus: Scalar,
@@ -375,6 +493,46 @@ unsafe extern fn mooney_rivlin_first_piola_kirchoff_tangent_stiffness(
         MooneyRivlin::new(
             &[bulk_modulus, shear_modulus, extra_modulus]
         ).calculate_first_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn mooney_rivlin_second_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extra_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        MooneyRivlin::new(
+            &[bulk_modulus, shear_modulus, extra_modulus]
+        ).calculate_second_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn mooney_rivlin_second_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extra_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        MooneyRivlin::new(
+            &[bulk_modulus, shear_modulus, extra_modulus]
+        ).calculate_second_piola_kirchoff_tangent_stiffness(
             &DeformationGradient::new(
                 from_raw_parts(
                     deformation_gradient, 9
@@ -479,6 +637,44 @@ unsafe extern fn neo_hookean_first_piola_kirchoff_tangent_stiffness(
 }
 
 #[no_mangle]
+unsafe extern fn neo_hookean_second_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        NeoHookean::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_second_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn neo_hookean_second_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        NeoHookean::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_second_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
 unsafe extern fn neo_hookean_helmholtz_free_energy_density(
     bulk_modulus: Scalar,
     shear_modulus: Scalar,
@@ -562,6 +758,44 @@ unsafe extern fn saint_venant_kirchoff_first_piola_kirchoff_tangent_stiffness(
         SaintVenantKirchoff::new(
             &[bulk_modulus, shear_modulus]
         ).calculate_first_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn saint_venant_kirchoff_second_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        SaintVenantKirchoff::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_second_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn saint_venant_kirchoff_second_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        SaintVenantKirchoff::new(
+            &[bulk_modulus, shear_modulus]
+        ).calculate_second_piola_kirchoff_tangent_stiffness(
             &DeformationGradient::new(
                 from_raw_parts(
                     deformation_gradient, 9
@@ -663,6 +897,48 @@ unsafe extern fn fung_first_piola_kirchoff_tangent_stiffness(
         Fung::new(
             &[bulk_modulus, shear_modulus, extra_modulus, exponent]
         ).calculate_first_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn fung_second_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extra_modulus: Scalar,
+    exponent: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        Fung::new(
+            &[bulk_modulus, shear_modulus, extra_modulus, exponent]
+        ).calculate_second_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn fung_second_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extra_modulus: Scalar,
+    exponent: Scalar,
+    deformation_gradient: *const [[Scalar; 3]; 3]
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        Fung::new(
+            &[bulk_modulus, shear_modulus, extra_modulus, exponent]
+        ).calculate_second_piola_kirchoff_tangent_stiffness(
             &DeformationGradient::new(
                 from_raw_parts(
                     deformation_gradient, 9
@@ -782,6 +1058,56 @@ unsafe extern fn yeoh_first_piola_kirchoff_tangent_stiffness(
                 )
             ].concat()
         ).calculate_first_piola_kirchoff_tangent_stiffness(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn yeoh_second_piola_kirchoff_stress(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extra_moduli: *const Scalar,
+    len_extra_moduli: usize,
+    deformation_gradient: *const [[Scalar; 3]; 3],
+) -> *const [[Scalar; 3]; 3] {
+    Box::into_raw(Box::new(
+        Yeoh::new(
+            &[
+                &[bulk_modulus], &[shear_modulus], from_raw_parts(
+                    extra_moduli, len_extra_moduli
+                )
+            ].concat()
+        ).calculate_second_piola_kirchoff_stress(
+            &DeformationGradient::new(
+                from_raw_parts(
+                    deformation_gradient, 9
+                )[0]
+            )
+        ).unwrap().as_array()
+    ))
+}
+
+#[no_mangle]
+unsafe extern fn yeoh_second_piola_kirchoff_tangent_stiffness(
+    bulk_modulus: Scalar,
+    shear_modulus: Scalar,
+    extra_moduli: *const Scalar,
+    len_extra_moduli: usize,
+    deformation_gradient: *const [[Scalar; 3]; 3],
+) -> *const [[[[Scalar; 3]; 3]; 3]; 3] {
+    Box::into_raw(Box::new(
+        Yeoh::new(
+            &[
+                &[bulk_modulus], &[shear_modulus], from_raw_parts(
+                    extra_moduli, len_extra_moduli
+                )
+            ].concat()
+        ).calculate_second_piola_kirchoff_tangent_stiffness(
             &DeformationGradient::new(
                 from_raw_parts(
                     deformation_gradient, 9
